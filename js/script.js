@@ -1,38 +1,50 @@
 const pokedex = document.getElementById("pokedex");
 const apiUrl = "https://pokeapi.co/api/v2/pokemon/?offset=20&limit=20";
+const inputFiltrar = document.getElementById("txtFiltrar");
 
-async function fetchPokemonData(url) {
+
+
+async function Carregarpokemons(){
+    const urlEndPoint = "https://pokeapi.co/api/v2/pokemon/?offset=40&limit=20";
+    const options = {
+        method: 'GET'
+    }
+
+
     try {
-        const response = await fetch(url);
-        const data = await response.json();
-        return data.results;
+        //código válido
+       const resposta = await fetch(urlEndPoint, options);
+       const dados = await resposta.json();
+
+       console.log(dados);
+
+       dados.forEach((item) => {
+       
+        li.textContent = item.song + "-" + item.artist + "-" + item.genre;
+       
+       });
+
     } catch (error) {
-        console.error("Erro ao buscar dados dos Pokémon: " + error);
+        console.log('Error:' + error);
+        
     }
+
 }
+Carregarpokemons();
 
-async function displayPokemon() {
-    const pokemonData = await fetchPokemonData(apiUrl);
+inputFiltrar.addEventListener("input", () => {
+    let filtro = inputFiltrar.value.toLowerCase();
+  
 
-    pokedex.innerHTML = "";
+    for(const musica of listagem){
+        const textoMusica = musica.textContent.toLowerCase();  
 
-    for (const pokemon of pokemonData) {
-        const response = await fetch(`https://cors-anywhere.herokuapp.com/${pokemon.url}`);
-        const data = await response.json();
-        const name = data.name;
-        const types = data.types.map(type => type.type.name);
-        const imageUrl = data.sprites.front_default;
-
-        const card = document.createElement("div");
-        card.classList.add("card");
-        card.innerHTML = `
-            <img src="${imageUrl}" alt="${name}">
-            <h2>${name}</h2>
-            <p>Type: ${types.join(", ")}</p>
-        `;
-
-        pokedex.appendChild(card);
+        if(textoMusica.includes(filtro)){
+            musica.style.display = "flex";
+        }else{
+            musica.style.display = "none";
+        }
     }
-}
+});
 
 displayPokemon();
