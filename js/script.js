@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const name = data.name;
             const imageUrl = data.sprites.front_default;
 
-            const card = document.createElement("div");
+            const card = document.createElement("button");
             card.classList.add("card");
             card.innerHTML = `
                 <img src="${imageUrl}" alt="${name}">
